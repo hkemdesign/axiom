@@ -35,31 +35,28 @@ export const ApiSpecBlock: React.FC<Props> = ({ data, onUpdate, isReadOnly, isRt
   };
 
   return (
-    <div style={{
+    <div className="axiom-card" style={{
       margin: '18px 0',
       padding: '18px',
-      background: 'var(--color-bg-surface)',
-      border: '1px solid var(--color-border-medium)',
-      borderRadius: 'var(--radius-lg)'
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
           {isReadOnly ? (
-            <span className={`ax-badge ${getMethodBadgeClass(data.method)}`} style={{ fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+            <span className={`ax-badge ${getMethodBadgeClass(data.method)}`} style={{ fontWeight: 700, fontFamily: 'var(--font-family-mono)' }}>
               {data.method}
             </span>
           ) : (
             <select
               value={data.method}
               onChange={(e) => handleUpdate('method', e.target.value)}
+              className="ax-input"
               style={{
-                fontFamily: 'var(--font-mono)',
+                fontFamily: 'var(--font-family-mono)',
                 fontWeight: 700,
-                padding: '4px 8px',
+                padding: '5px 10px',
                 borderRadius: 'var(--radius-sm)',
-                background: 'var(--color-bg-surface-hover)',
-                border: '1px solid var(--color-border-subtle)',
-                color: 'var(--color-accent)'
+                color: 'var(--color-primary-olive)',
+                cursor: 'pointer',
               }}
             >
               <option value="GET">GET</option>
@@ -71,7 +68,7 @@ export const ApiSpecBlock: React.FC<Props> = ({ data, onUpdate, isReadOnly, isRt
           )}
 
           {isReadOnly ? (
-            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '0.94rem' }}>
+            <span style={{ fontFamily: 'var(--font-family-mono)', fontWeight: 600, fontSize: '0.94rem' }}>
               {data.path}
             </span>
           ) : (
@@ -79,7 +76,8 @@ export const ApiSpecBlock: React.FC<Props> = ({ data, onUpdate, isReadOnly, isRt
               type="text"
               value={data.path}
               onChange={(e) => handleUpdate('path', e.target.value)}
-              style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '0.94rem', flex: 1 }}
+              className="ax-input"
+              style={{ fontFamily: 'var(--font-family-mono)', fontWeight: 600, fontSize: '0.92rem', flex: 1 }}
               placeholder="/api/v1/resource"
             />
           )}
@@ -100,7 +98,7 @@ export const ApiSpecBlock: React.FC<Props> = ({ data, onUpdate, isReadOnly, isRt
         </div>
       </div>
 
-      <div style={{ marginBottom: '12px', fontSize: '0.86rem', color: 'var(--color-text-secondary)' }}>
+      <div style={{ marginBottom: '14px', fontSize: '0.86rem', color: 'var(--color-text-secondary)' }}>
         {isReadOnly ? (
           data.description
         ) : (
@@ -108,6 +106,7 @@ export const ApiSpecBlock: React.FC<Props> = ({ data, onUpdate, isReadOnly, isRt
             type="text"
             value={data.description}
             onChange={(e) => handleUpdate('description', e.target.value)}
+            className="ax-input"
             style={{ width: '100%', fontSize: '0.86rem', color: 'var(--color-text-secondary)' }}
             placeholder={isRtl ? 'وصف المسار البرمجي والوظيفة' : 'Route description'}
           />
@@ -117,26 +116,33 @@ export const ApiSpecBlock: React.FC<Props> = ({ data, onUpdate, isReadOnly, isRt
       {data.sampleResponse && (
         <div style={{
           position: 'relative',
-          padding: '12px',
+          padding: '12px 14px',
           background: 'var(--color-bg-canvas)',
           borderRadius: 'var(--radius-md)',
           border: '1px solid var(--color-border-subtle)'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-            <span style={{ fontSize: '0.74rem', color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--color-text-muted)', fontFamily: 'var(--font-family-mono)' }}>
               {isRtl ? 'هيكل الاستجابة النموذجي (JSON Response)' : 'Sample JSON Response'}
             </span>
-            <button onClick={handleCopy} className="ax-btn-icon" style={{ padding: '2px' }} title="Copy JSON">
-              {copied ? <CheckIcon size={13} style={{ color: 'var(--color-success)' }} /> : <CopyIcon size={13} />}
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="axiom-icon-btn"
+              style={{ width: 26, height: 26 }}
+              title="Copy JSON"
+            >
+              {copied ? <CheckIcon size={13} style={{ color: 'var(--color-status-success)' }} /> : <CopyIcon size={13} />}
             </button>
           </div>
           <pre style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.78rem',
+            fontFamily: 'var(--font-family-mono)',
+            fontSize: '0.80rem',
             color: 'var(--color-text-primary)',
             overflowX: 'auto',
             whiteSpace: 'pre-wrap',
-            margin: 0
+            margin: 0,
+            lineHeight: 1.5,
           }}>
             {data.sampleResponse}
           </pre>

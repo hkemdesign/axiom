@@ -832,3 +832,227 @@ a {
     margin-bottom: 4px;
   }
 }
+
+/* --------------------------------------------------------------------------
+   GLOBAL INPUTS AND FORM CONTROLS
+   -------------------------------------------------------------------------- */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea,
+select,
+.ax-input {
+  background-color: var(--color-bg-surface-hover);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 13px;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus,
+.ax-input:focus {
+  border-color: var(--color-primary-olive);
+  box-shadow: 0 0 0 2px var(--color-accent-lime-soft);
+  background-color: var(--color-bg-surface);
+}
+
+/* --------------------------------------------------------------------------
+   MODAL OVERLAY AND DIALOG CONTAINERS (.ax-modal-*)
+   -------------------------------------------------------------------------- */
+.ax-modal-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(10, 11, 9, 0.72) !important;
+  backdrop-filter: blur(14px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1000 !important;
+  animation: axFadeIn 180ms ease-out;
+}
+
+.ax-modal-container {
+  background: var(--color-bg-surface) !important;
+  border: 1px solid var(--color-border-medium) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-modal) !important;
+  max-width: 620px !important;
+  width: 92% !important;
+  max-height: 86vh !important;
+  overflow-y: auto !important;
+  animation: axScaleUp 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+@keyframes axFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes axScaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   BUTTONS AND BADGES COMPATIBILITY (.ax-btn-*, .ax-badge-*)
+   -------------------------------------------------------------------------- */
+.ax-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  outline: 2px solid transparent;
+  outline-offset: 0px;
+  user-select: none;
+  border: 1px solid transparent;
+}
+
+.ax-btn-primary {
+  background-color: var(--color-primary-olive);
+  color: #FFFFFF;
+}
+
+.ax-btn-primary:hover {
+  background-color: var(--color-primary-olive-hover);
+  transform: translateY(-0.5px);
+}
+
+.ax-btn-primary:active {
+  background-color: var(--color-primary-olive-active);
+  outline: 2px solid var(--color-primary-olive);
+  outline-offset: 2px;
+  transform: scale(0.97);
+}
+
+.ax-btn-secondary {
+  background-color: var(--color-bg-surface-hover);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-medium);
+}
+
+.ax-btn-secondary:hover {
+  background-color: var(--color-bg-surface-active);
+  border-color: var(--color-border-strong);
+  transform: translateY(-0.5px);
+}
+
+.ax-btn-secondary:active {
+  background-color: var(--color-bg-surface-active);
+  outline: 2px solid var(--color-border-medium);
+  outline-offset: 2px;
+  transform: scale(0.97);
+}
+
+.ax-btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+
+.ax-btn-ghost:hover {
+  background: var(--color-bg-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.ax-btn-ghost:active {
+  transform: scale(0.97);
+}
+
+.ax-btn-sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.ax-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ax-btn-icon:hover {
+  background: var(--color-bg-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.ax-btn-icon:active {
+  transform: scale(0.94);
+}
+
+.ax-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 8.5px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ax-badge-success {
+  background-color: var(--color-status-success-soft);
+  color: var(--color-status-success);
+}
+
+.ax-badge-warning {
+  background-color: var(--color-status-warning-soft);
+  color: var(--color-status-warning);
+}
+
+.ax-badge-danger {
+  background-color: var(--color-status-danger-soft);
+  color: var(--color-status-danger);
+}
+
+.ax-badge-info {
+  background-color: var(--color-status-info-soft);
+  color: var(--color-status-info);
+}
+
+.ax-badge-purple {
+  background-color: var(--color-status-purple-soft);
+  color: var(--color-status-purple);
+}
+
+.ax-badge-accent {
+  background-color: var(--color-accent-chip-bg);
+  color: var(--color-accent-chip-text);
+  border: 1px solid var(--color-border-accent);
+}
+
+.ax-badge-neutral {
+  background-color: var(--color-bg-surface-hover);
+  color: var(--color-text-secondary);
+}
+
+.ax-kbd {
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: var(--radius-xs);
+  background-color: var(--color-bg-surface-hover);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border-subtle);
+}

@@ -10,10 +10,18 @@ import { AiSynthesisModal } from './components/Modals/AiSynthesisModal';
 import { CommandPalette } from './components/Modals/CommandPalette';
 import { Toast } from './components/Toast/Toast';
 
+const AXIOM_WORKSPACE_VERSION = 'axiom_v6_luxurious';
+
 export const App: React.FC = () => {
-  // Persistence in localStorage
+  // Persistence in localStorage with version bump
   const [pages, setPages] = useState<Page[]>(() => {
     try {
+      const v = localStorage.getItem('axiom_version');
+      if (v !== AXIOM_WORKSPACE_VERSION) {
+        localStorage.setItem('axiom_version', AXIOM_WORKSPACE_VERSION);
+        localStorage.setItem('axiom_workspace_pages', JSON.stringify(initialPages));
+        return initialPages;
+      }
       const saved = localStorage.getItem('axiom_workspace_pages');
       return saved ? JSON.parse(saved) : initialPages;
     } catch {
@@ -42,11 +50,8 @@ export const App: React.FC = () => {
     return (saved as Theme) || 'dark';
   });
 
-  // Modals state
-  const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [mcpModalOpen, setMcpModalOpen] = useState(false);
-  const [aiSynthesisModalOpen, setAiSynthesisModalOpen] = useState(false);
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  // Single modal state ensures NO overlapping modals
+  const [activeModal, setActiveModal] = useState<'share' | 'mcp' | 'ai' | 'search' | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isPublicPreviewActive, setIsPublicPreviewActive] = useState(false);
 
@@ -99,7 +104,7 @@ export const App: React.FC = () => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        setSearchModalOpen((prev) => !prev);
+        setActiveModal((prev) => (prev === 'search' ? null : 'search'));
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -240,9 +245,9 @@ export const App: React.FC = () => {
           onSelectPage={handleSelectPage}
           onCreatePage={handleNewPage}
           onDeletePage={handleDeletePage}
-          onOpenCommandPalette={() => setSearchModalOpen(true)}
-          onOpenAiModal={() => setAiSynthesisModalOpen(true)}
-          onOpenMcpModal={() => setMcpModalOpen(true)}
+          onOpenCommandPalette={() => setActiveModal('search')}
+          onOpenAiModal={() => setActiveModal('ai')}
+          onOpenMcpModal={() => setActiveModal('mcp')}
           language={currentLanguage}
         />
       )}
@@ -255,9 +260,9 @@ export const App: React.FC = () => {
           recentPageIds={recentPageIds}
           onSelectPage={handleSelectPage}
           onCloseRecentTab={handleCloseRecentTab}
-          onOpenShare={() => setShareModalOpen(true)}
-          onOpenAiSynthesis={() => setAiSynthesisModalOpen(true)}
-          onOpenMcp={() => setMcpModalOpen(true)}
+          onOpenShare={() => setActiveModal('share')}
+          onOpenAiSynthesis={() => setActiveModal('ai')}
+          onOpenMcp={() => setActiveModal('mcp')}
           onToggleFavorite={() => handleToggleFavorite(activePage.id)}
           onExportMarkdown={handleExportMarkdown}
           onExportJson={handleExportJson}
@@ -277,16 +282,16 @@ export const App: React.FC = () => {
             onNavigateToPage={handleSelectPage}
             isReadOnly={isPublicPreviewActive}
             isRtl={isRtl}
-            onOpenAiSynthesis={() => setAiSynthesisModalOpen(true)}
+            onOpenAiSynthesis={() => setActiveModal('ai')}
           />
         </main>
       </div>
 
-      {/* Modals & Dialogs */}
+      {/* Modals & Dialogs (Single active modal strictly prevents overlaps) */}
       <ShareModal
         page={activePage}
-        isOpen={shareModalOpen}
-        onClose={() => setShareModalOpen(false)}
+        isOpen={activeModal === 'share'}
+        onClose={() => setActiveModal(null)}
         onUpdateShareSettings={(shareSettings: ShareSettings) => handleUpdatePage({ ...activePage, shareSettings })}
         onTogglePublicPreview={() => setIsPublicPreviewActive((prev) => !prev)}
         isPublicPreviewActive={isPublicPreviewActive}
@@ -294,28 +299,28 @@ export const App: React.FC = () => {
       />
 
       <McpApiModal
-        isOpen={mcpModalOpen}
-        onClose={() => setMcpModalOpen(false)}
+        isOpen={activeModal === 'mcp'}
+        onClose={() => setActiveModal(null)}
         pages={pages}
         isRtl={isRtl}
       />
 
       <AiSynthesisModal
-        isOpen={aiSynthesisModalOpen}
-        onClose={() => setAiSynthesisModalOpen(false)}
+        isOpen={activeModal === 'ai'}
+        onClose={() => setActiveModal(null)}
         onSynthesize={handleSynthesizePage}
         isRtl={isRtl}
       />
 
       <CommandPalette
-        isOpen={searchModalOpen}
-        onClose={() => setSearchModalOpen(false)}
+        isOpen={activeModal === 'search'}
+        onClose={() => setActiveModal(null)}
         pages={pages}
         onSelectPage={handleSelectPage}
         onNewPage={() => handleNewPage(null)}
-        onOpenAiSynthesis={() => setAiSynthesisModalOpen(true)}
-        onOpenShare={() => setShareModalOpen(true)}
-        onOpenMcp={() => setMcpModalOpen(true)}
+        onOpenAiSynthesis={() => setActiveModal('ai')}
+        onOpenShare={() => setActiveModal('share')}
+        onOpenMcp={() => setActiveModal('mcp')}
         onToggleTheme={handleToggleTheme}
         onToggleLanguage={handleToggleLanguage}
         isRtl={isRtl}
