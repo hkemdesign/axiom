@@ -16,6 +16,7 @@ import {
   MoreIcon,
   CheckIcon,
 } from '../icons/HugeIcons';
+import { AxiomDropdown } from '../Common/AxiomDropdown';
 
 interface TableBlockProps {
   data?: TableData;
@@ -216,26 +217,19 @@ export const TableBlock: React.FC<TableBlockProps> = ({
           {/* Filter Dropdown */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <FilterIcon size={13} style={{ color: filterColumn !== 'all' ? 'var(--color-accent-lime)' : 'var(--color-text-muted)' }} />
-            <select
+            <AxiomDropdown
+              size="sm"
               value={filterColumn}
-              onChange={(e) => {
-                setFilterColumn(e.target.value);
-                if (e.target.value === 'all') setFilterValue('');
+              onChange={(val) => {
+                setFilterColumn(val);
+                if (val === 'all') setFilterValue('');
               }}
-              style={{
-                padding: '3px 6px',
-                fontSize: 12,
-                borderRadius: 'var(--radius-sm)',
-                border: '1px solid var(--color-border-subtle)',
-                backgroundColor: 'var(--color-bg-surface)',
-                color: 'var(--color-text-primary)',
-              }}
-            >
-              <option value="all">{language === 'ar' ? 'الكل' : 'All'}</option>
-              {columns.map((c) => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
+              options={[
+                { id: 'all', label: language === 'ar' ? 'كل الأعمدة' : 'All Columns' },
+                ...columns.map((c) => ({ id: c.id, label: c.name })),
+              ]}
+              isRtl={language === 'ar'}
+            />
             {filterColumn !== 'all' && (
               <input
                 type="text"
@@ -405,59 +399,46 @@ export const TableBlock: React.FC<TableBlockProps> = ({
                 return (
                   <td key={col.id} className={wrapClass}>
                     {col.type === 'status' && col.options ? (
-                      <select
+                      <AxiomDropdown
+                        size="sm"
+                        variant="pill"
                         value={cellVal}
-                        onChange={(e) => handleCellChange(row.id, col.id, e.target.value)}
-                        style={{
-                          padding: '3px 8px',
-                          borderRadius: 'var(--radius-full)',
-                          border: '1px solid var(--color-border-subtle)',
-                          backgroundColor: 'var(--color-bg-surface-hover)',
-                          fontSize: 12,
-                          fontWeight: 500,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {col.options.map((opt) => (
-                          <option key={opt.id} value={opt.id}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
+                        onChange={(val) => handleCellChange(row.id, col.id, val)}
+                        options={col.options.map((opt) => ({
+                          id: opt.id,
+                          label: opt.label,
+                          color: opt.color,
+                        }))}
+                        isRtl={language === 'ar'}
+                      />
                     ) : col.type === 'select' && col.options ? (
-                      <select
+                      <AxiomDropdown
+                        size="sm"
+                        variant="pill"
                         value={cellVal}
-                        onChange={(e) => handleCellChange(row.id, col.id, e.target.value)}
-                        style={{
-                          padding: '3px 8px',
-                          borderRadius: 'var(--radius-full)',
-                          border: '1px solid var(--color-border-subtle)',
-                          backgroundColor: 'var(--color-accent-chip-bg)',
-                          color: 'var(--color-accent-chip-text)',
-                          fontSize: 12,
-                          fontWeight: 500,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {col.options.map((opt) => (
-                          <option key={opt.id} value={opt.id}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
+                        onChange={(val) => handleCellChange(row.id, col.id, val)}
+                        options={col.options.map((opt) => ({
+                          id: opt.id,
+                          label: opt.label,
+                          color: opt.color,
+                        }))}
+                        isRtl={language === 'ar'}
+                      />
                     ) : (
                       <textarea
                         value={cellVal}
-                        rows={col.wrapText ? 2 : 1}
+                        rows={col.wrapText ? Math.max(1, Math.ceil(cellVal.length / 32)) : 1}
                         onChange={(e) => handleCellChange(row.id, col.id, e.target.value)}
                         style={{
                           width: '100%',
                           background: 'transparent',
                           border: 'none',
                           outline: 'none',
-                          resize: 'vertical',
+                          resize: 'none',
                           fontSize: 13,
                           lineHeight: 1.5,
+                          fontFamily: 'inherit',
+                          boxSizing: 'border-box',
                         }}
                       />
                     )}

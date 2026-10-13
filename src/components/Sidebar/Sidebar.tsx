@@ -82,13 +82,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
       >
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '12px 10px', gap: 10 }}>
           {/* Workspace Branding with Main Logo and Pin/Lock Control */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px', minHeight: 36 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 6px', minHeight: 44 }}>
             <div
               style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
               onClick={() => pages[0] && onSelectPage(pages[0].id)}
               title="Axiom Architecture Platform"
             >
-              <AxiomMainLogo height={28} />
+              <AxiomMainLogo height={40} />
             </div>
 
             {/* Pin / Close Toggle */}

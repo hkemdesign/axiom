@@ -77,8 +77,8 @@ export const McpApiModal: React.FC<Props> = ({ isOpen, onClose, pages, isRtl }) 
               display: 'flex',
               padding: '8px',
               borderRadius: 'var(--radius-md)',
-              background: 'var(--color-accent-soft)',
-              color: 'var(--color-accent)'
+              background: 'var(--color-accent-chip-bg)',
+              color: 'var(--color-primary-olive)'
             }}>
               <ServerIcon size={20} />
             </span>
@@ -88,7 +88,7 @@ export const McpApiModal: React.FC<Props> = ({ isOpen, onClose, pages, isRtl }) 
             </div>
           </div>
 
-          <button onClick={onClose} className="ax-btn-icon" style={{ fontSize: '1.2rem', color: 'var(--color-text-muted)' }}>
+          <button type="button" onClick={onClose} className="ax-btn-icon" style={{ fontSize: '1.2rem', color: 'var(--color-text-muted)' }}>
             ✕
           </button>
         </div>
@@ -97,43 +97,28 @@ export const McpApiModal: React.FC<Props> = ({ isOpen, onClose, pages, isRtl }) 
         <div style={{
           display: 'flex',
           gap: '8px',
-          padding: '12px 24px 0',
+          padding: '10px 20px',
           borderBottom: '1px solid var(--color-border-subtle)',
           background: 'var(--color-bg-surface-hover)'
         }}>
           <button
+            type="button"
             onClick={() => setActiveTab('mcp')}
-            style={{
-              padding: '8px 14px',
-              borderBottom: activeTab === 'mcp' ? '2px solid var(--color-accent)' : '2px solid transparent',
-              color: activeTab === 'mcp' ? 'var(--color-accent)' : 'var(--color-text-secondary)',
-              fontWeight: 600,
-              fontSize: '0.86rem'
-            }}
+            className={`ax-tab-btn ${activeTab === 'mcp' ? 'active' : ''}`}
           >
             {t.mcpConfigTab}
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab('api')}
-            style={{
-              padding: '8px 14px',
-              borderBottom: activeTab === 'api' ? '2px solid var(--color-accent)' : '2px solid transparent',
-              color: activeTab === 'api' ? 'var(--color-accent)' : 'var(--color-text-secondary)',
-              fontWeight: 600,
-              fontSize: '0.86rem'
-            }}
+            className={`ax-tab-btn ${activeTab === 'api' ? 'active' : ''}`}
           >
             {t.restApiTab}
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab('script')}
-            style={{
-              padding: '8px 14px',
-              borderBottom: activeTab === 'script' ? '2px solid var(--color-accent)' : '2px solid transparent',
-              color: activeTab === 'script' ? 'var(--color-accent)' : 'var(--color-text-secondary)',
-              fontWeight: 600,
-              fontSize: '0.86rem'
-            }}
+            className={`ax-tab-btn ${activeTab === 'script' ? 'active' : ''}`}
           >
             Standalone Server Script
           </button>
@@ -157,6 +142,7 @@ export const McpApiModal: React.FC<Props> = ({ isOpen, onClose, pages, isRtl }) 
                 textAlign: 'left'
               }}>
                 <button
+                  type="button"
                   onClick={handleCopyMcp}
                   className="ax-btn ax-btn-primary ax-btn-sm"
                   style={{ position: 'absolute', top: '12px', right: '12px' }}
@@ -177,7 +163,7 @@ export const McpApiModal: React.FC<Props> = ({ isOpen, onClose, pages, isRtl }) 
                 <pre style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.82rem',
-                  color: 'var(--color-accent)',
+                  color: 'var(--color-primary-olive)',
                   margin: 0
                 }}>
                   {mcpConfigJson}
@@ -191,25 +177,25 @@ export const McpApiModal: React.FC<Props> = ({ isOpen, onClose, pages, isRtl }) 
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '8px' }}>
                   <div style={{ padding: '10px', background: 'var(--color-bg-surface-hover)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border-subtle)' }}>
-                    <code style={{ color: 'var(--color-accent)', fontWeight: 600, fontSize: '0.8rem' }}>axiom_list_pages()</code>
+                    <code style={{ color: 'var(--color-primary-olive)', fontWeight: 600, fontSize: '0.8rem' }}>axiom_list_pages()</code>
                     <p style={{ fontSize: '0.74rem', color: 'var(--color-text-secondary)', marginTop: '2px' }}>
                       {isRtl ? 'قراءة فهرس المخططات والصفحات المعمارية' : 'List all workspace pages and hierarchy'}
                     </p>
                   </div>
                   <div style={{ padding: '10px', background: 'var(--color-bg-surface-hover)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border-subtle)' }}>
-                    <code style={{ color: 'var(--color-accent)', fontWeight: 600, fontSize: '0.8rem' }}>axiom_read_page(page_id)</code>
+                    <code style={{ color: 'var(--color-primary-olive)', fontWeight: 600, fontSize: '0.8rem' }}>axiom_read_page(page_id)</code>
                     <p style={{ fontSize: '0.74rem', color: 'var(--color-text-secondary)', marginTop: '2px' }}>
                       {isRtl ? 'قراءة محتوى الكتل وقرارات ADR والمسارات' : 'Retrieve full page blocks, ADRs & specs'}
                     </p>
                   </div>
                   <div style={{ padding: '10px', background: 'var(--color-bg-surface-hover)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border-subtle)' }}>
-                    <code style={{ color: 'var(--color-accent)', fontWeight: 600, fontSize: '0.8rem' }}>axiom_create_page(title, blocks)</code>
+                    <code style={{ color: 'var(--color-primary-olive)', fontWeight: 600, fontSize: '0.8rem' }}>axiom_create_page(title, blocks)</code>
                     <p style={{ fontSize: '0.74rem', color: 'var(--color-text-secondary)', marginTop: '2px' }}>
                       {isRtl ? 'إنشاء صفحة ومخطط جديد تلقائياً عبر AI' : 'Generate new page and architectural blocks'}
                     </p>
                   </div>
                   <div style={{ padding: '10px', background: 'var(--color-bg-surface-hover)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border-subtle)' }}>
-                    <code style={{ color: 'var(--color-accent)', fontWeight: 600, fontSize: '0.8rem' }}>axiom_append_block(page_id, block)</code>
+                    <code style={{ color: 'var(--color-primary-olive)', fontWeight: 600, fontSize: '0.8rem' }}>axiom_append_block(page_id, block)</code>
                     <p style={{ fontSize: '0.74rem', color: 'var(--color-text-secondary)', marginTop: '2px' }}>
                       {isRtl ? 'إلحاق كتل ومواصفات أو جداول دون الكتابة فوق المحتوى' : 'Append ADRs or architecture cards'}
                     </p>
@@ -226,13 +212,13 @@ export const McpApiModal: React.FC<Props> = ({ isOpen, onClose, pages, isRtl }) 
               </p>
 
               <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
-                <button onClick={() => handleTestApi('list')} className="ax-btn ax-btn-secondary ax-btn-sm">
+                <button type="button" onClick={() => handleTestApi('list')} className="ax-btn ax-btn-secondary ax-btn-sm">
                   GET /api/v1/pages
                 </button>
-                <button onClick={() => handleTestApi('current')} className="ax-btn ax-btn-secondary ax-btn-sm">
+                <button type="button" onClick={() => handleTestApi('current')} className="ax-btn ax-btn-secondary ax-btn-sm">
                   GET /api/v1/pages/current
                 </button>
-                <button onClick={() => handleTestApi('create')} className="ax-btn ax-btn-secondary ax-btn-sm">
+                <button type="button" onClick={() => handleTestApi('create')} className="ax-btn ax-btn-secondary ax-btn-sm">
                   POST /api/v1/pages (Simulate AI)
                 </button>
               </div>
@@ -276,7 +262,7 @@ export const McpApiModal: React.FC<Props> = ({ isOpen, onClose, pages, isRtl }) 
                 borderRadius: 'var(--radius-sm)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.84rem',
-                color: 'var(--color-accent)',
+                color: 'var(--color-primary-olive)',
                 direction: 'ltr',
                 textAlign: 'left',
                 marginBottom: '14px'
@@ -298,7 +284,7 @@ export const McpApiModal: React.FC<Props> = ({ isOpen, onClose, pages, isRtl }) 
           justifyContent: 'flex-end',
           background: 'var(--color-bg-surface)'
         }}>
-          <button onClick={onClose} className="ax-btn ax-btn-secondary">
+          <button type="button" onClick={onClose} className="ax-btn ax-btn-secondary">
             {t.close}
           </button>
         </div>

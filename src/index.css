@@ -217,6 +217,14 @@ button, input, textarea, select {
   color: inherit;
 }
 
+button {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -492,6 +500,22 @@ a {
 
 [dir="ltr"] .axiom-toc-card {
   right: calc(100% + 10px);
+}
+
+.axiom-toc-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  width: 24px;
+}
+
+[dir="rtl"] .axiom-toc-card::before {
+  right: -20px;
+}
+
+[dir="ltr"] .axiom-toc-card::before {
+  left: -20px;
 }
 
 .axiom-toc-item {

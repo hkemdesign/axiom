@@ -16,6 +16,7 @@ interface TocItem {
 export const TocRail: React.FC<TocRailProps> = ({ blocks, language = 'ar' }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [activeId, setActiveId] = useState<string>('');
+  const hoverTimeoutRef = React.useRef<any>(null);
 
   const headings: TocItem[] = blocks
     .filter((b) => b.type === 'heading_1' || b.type === 'heading_2' || b.type === 'heading_3')
@@ -37,7 +38,7 @@ export const TocRail: React.FC<TocRailProps> = ({ blocks, language = 'ar' }) => 
       for (const item of headingElements) {
         if (item.el) {
           const rect = item.el.getBoundingClientRect();
-          if (rect.top <= 160) {
+          if (rect.top <= 200) {
             currentActive = item.id;
           }
         }
@@ -45,12 +46,25 @@ export const TocRail: React.FC<TocRailProps> = ({ blocks, language = 'ar' }) => 
       setActiveId(currentActive);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    const mainContainer = document.querySelector('main') || window;
+    mainContainer.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => mainContainer.removeEventListener('scroll', handleScroll);
   }, [headings]);
 
   if (headings.length === 0) return null;
+
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(false);
+    }, 450);
+  };
 
   const handleScrollTo = (id: string) => {
     const el = document.getElementById(`block-${id}`);
@@ -63,11 +77,11 @@ export const TocRail: React.FC<TocRailProps> = ({ blocks, language = 'ar' }) => 
   return (
     <div
       className="axiom-toc-rail"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       aria-label="Table of Contents Rail"
     >
-      <div className="axiom-toc-rail-track">
+      <div className="axiom-toc-rail-track" onMouseEnter={handleMouseEnter}>
         {headings.map((item) => (
           <div
             key={item.id}
@@ -79,7 +93,11 @@ export const TocRail: React.FC<TocRailProps> = ({ blocks, language = 'ar' }) => 
       </div>
 
       {isHovered && (
-        <div className="axiom-toc-card">
+        <div
+          className="axiom-toc-card"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 4, paddingBottom: 6, borderBottom: '1px solid var(--color-border-subtle)' }}>
             <ListTreeIcon size={15} style={{ color: 'var(--color-accent-lime)' }} />
             <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-text-secondary)' }}>

@@ -54,12 +54,12 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
                   }
                 }}
                 className={`axiom-tab-pill ${isLast ? 'active' : ''}`}
-                style={{ padding: '3px 8px', fontSize: 13, gap: 5 }}
+                style={{ padding: '4px 10px', fontSize: 13, gap: 6 }}
               >
                 <span style={{ fontSize: 14 }}>
                   {typeof page.icon === 'string' && page.icon ? page.icon : <DocumentIcon size={13} />}
                 </span>
-                <span style={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span style={{ maxWidth: isLast ? 'clamp(200px, 35vw, 380px)' : 'clamp(140px, 20vw, 240px)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {page.title}
                 </span>
                 {siblings.length > 1 && (

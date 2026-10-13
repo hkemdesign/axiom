@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import type { Page, Theme } from '../../types';
 import { Breadcrumbs } from './Breadcrumbs';
-import { RecentTabs } from './RecentTabs';
 import {
   ShareIcon,
   SparklesIcon,
@@ -17,9 +16,9 @@ import {
 interface HeaderProps {
   page: Page;
   allPages: Page[];
-  recentPageIds: string[];
+  recentPageIds?: string[];
   onSelectPage: (id: string) => void;
-  onCloseRecentTab: (id: string) => void;
+  onCloseRecentTab?: (id: string) => void;
   onOpenShare: () => void;
   onOpenAiSynthesis: () => void;
   onOpenMcp: () => void;
@@ -37,9 +36,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   page,
   allPages,
-  recentPageIds,
   onSelectPage,
-  onCloseRecentTab,
   onOpenShare,
   onOpenAiSynthesis,
   onOpenMcp,
@@ -72,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
         gap: 12,
       }}
     >
-      {/* Left side: Sidebar Toggle + Breadcrumbs + Recent Tabs */}
+      {/* Left side: Sidebar Toggle + Unified Breadcrumbs Navigation */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
         {isSidebarClosed && (
           <button
@@ -90,16 +87,6 @@ export const Header: React.FC<HeaderProps> = ({
           activePage={page}
           onSelectPage={onSelectPage}
           language={language}
-        />
-
-        <div style={{ width: 1, height: 16, backgroundColor: 'var(--color-border-subtle)', margin: '0 4px' }} />
-
-        <RecentTabs
-          recentPageIds={recentPageIds}
-          pages={allPages}
-          activePageId={page.id}
-          onSelectPage={onSelectPage}
-          onCloseTab={onCloseRecentTab}
         />
       </div>
 

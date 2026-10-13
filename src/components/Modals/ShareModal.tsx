@@ -5,6 +5,7 @@ import {
   ShareIcon, CopyIcon, CheckIcon, GlobeIcon,
   LockIcon, UserPlus, TrashIcon, ExternalLink
 } from '../icons/HugeIcons';
+import { AxiomDropdown } from '../Common/AxiomDropdown';
 
 interface Props {
   page: Page;
@@ -133,22 +134,16 @@ export const ShareModal: React.FC<Props> = ({
                 <span style={{ fontWeight: 600, fontSize: '0.92rem' }}>{t.generalAccess}</span>
               </div>
 
-              <select
+              <AxiomDropdown
+                size="sm"
                 value={settings.generalAccess}
-                onChange={(e) => handleGeneralAccessChange(e.target.value as any)}
-                style={{
-                  padding: '5px 10px',
-                  borderRadius: 'var(--radius-sm)',
-                  background: 'var(--color-bg-surface)',
-                  border: '1px solid var(--color-border-medium)',
-                  fontSize: '0.82rem',
-                  fontWeight: 600,
-                  color: 'var(--color-text-primary)'
-                }}
-              >
-                <option value="anyone_with_link">{t.anyoneWithLink}</option>
-                <option value="restricted">{t.restricted}</option>
-              </select>
+                onChange={(val) => handleGeneralAccessChange(val as any)}
+                options={[
+                  { id: 'anyone_with_link', label: t.anyoneWithLink },
+                  { id: 'restricted', label: t.restricted },
+                ]}
+                isRtl={isRtl}
+              />
             </div>
 
             <p style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '12px' }}>
@@ -160,21 +155,18 @@ export const ShareModal: React.FC<Props> = ({
                 <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
                   {isRtl ? 'صلاحية من يملك الرابط:' : 'Link permission:'}
                 </span>
-                <select
+                <AxiomDropdown
+                  size="sm"
+                  variant="pill"
                   value={settings.linkRole}
-                  onChange={(e) => handleLinkRoleChange(e.target.value as any)}
-                  style={{
-                    padding: '4px 8px',
-                    borderRadius: 'var(--radius-sm)',
-                    background: 'var(--color-bg-surface)',
-                    border: '1px solid var(--color-border-subtle)',
-                    fontSize: '0.8rem'
-                  }}
-                >
-                  <option value="viewer">{t.roleViewer}</option>
-                  <option value="commenter">{t.roleCommenter}</option>
-                  <option value="editor">{t.roleEditor}</option>
-                </select>
+                  onChange={(val) => handleLinkRoleChange(val as any)}
+                  options={[
+                    { id: 'viewer', label: t.roleViewer },
+                    { id: 'commenter', label: t.roleCommenter },
+                    { id: 'editor', label: t.roleEditor },
+                  ]}
+                  isRtl={isRtl}
+                />
               </div>
             )}
 
@@ -233,20 +225,16 @@ export const ShareModal: React.FC<Props> = ({
                 style={{ flex: 1 }}
               />
 
-              <select
+              <AxiomDropdown
+                size="md"
                 value={newRole}
-                onChange={(e) => setNewRole(e.target.value as any)}
-                style={{
-                  padding: '8px 10px',
-                  borderRadius: 'var(--radius-md)',
-                  background: 'var(--color-bg-surface)',
-                  border: '1px solid var(--color-border-medium)',
-                  fontSize: '0.86rem'
-                }}
-              >
-                <option value="viewer">{t.roleViewer}</option>
-                <option value="editor">{t.roleEditor}</option>
-              </select>
+                onChange={(val) => setNewRole(val as any)}
+                options={[
+                  { id: 'viewer', label: t.roleViewer },
+                  { id: 'editor', label: t.roleEditor },
+                ]}
+                isRtl={isRtl}
+              />
 
               <button type="submit" className="ax-btn ax-btn-secondary">
                 <UserPlus size={16} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import type { Page, Block, BlockType, PageStatus, TableData, PageIconData } from '../../types';
 import { translations } from '../../i18n/translations';
 import {
@@ -7,6 +7,7 @@ import {
   DocumentIcon,
   SparklesIcon,
 } from '../icons/HugeIcons';
+import { AxiomDropdown } from '../Common/AxiomDropdown';
 import { ArchitectureBlock } from '../Blocks/ArchitectureBlock';
 import { TechStackBlock } from '../Blocks/TechStackBlock';
 import { AdrBlock } from '../Blocks/AdrBlock';
@@ -55,6 +56,21 @@ export const PageEditor: React.FC<Props> = ({
   const [showIconPicker, setShowIconPicker] = useState(false);
   const [showCoverPicker, setShowCoverPicker] = useState(false);
   const [activeMenuBlock, setActiveMenuBlock] = useState<Block | null>(null);
+
+  // Drag and drop state
+  const [draggedBlockId, setDraggedBlockId] = useState<string | null>(null);
+  const [dragOverBlockId, setDragOverBlockId] = useState<string | null>(null);
+  const [dropPosition, setDropPosition] = useState<'top' | 'bottom' | null>(null);
+
+  // Auto-hug title textarea
+  const titleTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useLayoutEffect(() => {
+    if (titleTextareaRef.current) {
+      titleTextareaRef.current.style.height = 'auto';
+      titleTextareaRef.current.style.height = `${titleTextareaRef.current.scrollHeight}px`;
+    }
+  }, [page.title]);
 
   const t = isRtl ? translations.ar : translations.en;
 
@@ -226,6 +242,23 @@ export const PageEditor: React.FC<Props> = ({
     handleUpdateBlock(blockId, { colorTint: tint });
   };
 
+  const handleReorderBlocks = (sourceId: string, targetId: string, position: 'top' | 'bottom') => {
+    if (sourceId === targetId) return;
+    const sourceIdx = page.blocks.findIndex((b) => b.id === sourceId);
+    const targetIdx = page.blocks.findIndex((b) => b.id === targetId);
+    if (sourceIdx === -1 || targetIdx === -1) return;
+
+    const newBlocks = [...page.blocks];
+    const [moved] = newBlocks.splice(sourceIdx, 1);
+    const newTargetIdx = newBlocks.findIndex((b) => b.id === targetId);
+    const insertIdx = position === 'bottom' ? newTargetIdx + 1 : newTargetIdx;
+    newBlocks.splice(insertIdx, 0, moved);
+    onUpdatePage({ ...page, blocks: newBlocks, updatedAt: new Date().toISOString() });
+    setDraggedBlockId(null);
+    setDragOverBlockId(null);
+    setDropPosition(null);
+  };
+
   const renderPageIcon = () => {
     if (!page.icon) {
       return <DocumentIcon size={28} style={{ color: 'var(--color-primary-olive)' }} />;
@@ -362,24 +395,19 @@ export const PageEditor: React.FC<Props> = ({
           {/* Status & AI Action */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             {!isReadOnly && (
-              <select
+              <AxiomDropdown
+                size="sm"
+                variant="pill"
                 value={page.status}
-                onChange={(e) => handleUpdateStatus(e.target.value as PageStatus)}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: 'var(--radius-full)',
-                  border: '1px solid var(--color-border-subtle)',
-                  backgroundColor: 'var(--color-bg-surface)',
-                  fontSize: 12,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                }}
-              >
-                <option value="draft">{t.statusDraft}</option>
-                <option value="in_review">{t.statusInReview}</option>
-                <option value="approved">{t.statusApproved}</option>
-                <option value="active">{t.statusActive}</option>
-              </select>
+                onChange={(val) => handleUpdateStatus(val as PageStatus)}
+                options={[
+                  { id: 'draft', label: t.statusDraft, color: 'var(--color-text-secondary)' },
+                  { id: 'in_review', label: t.statusInReview, color: 'var(--color-status-warning)' },
+                  { id: 'approved', label: t.statusApproved, color: 'var(--color-status-success)' },
+                  { id: 'active', label: t.statusActive, color: 'var(--color-accent-lime)' },
+                ]}
+                isRtl={isRtl}
+              />
             )}
 
             {!isReadOnly && onOpenAiSynthesis && (
@@ -398,25 +426,31 @@ export const PageEditor: React.FC<Props> = ({
 
         {/* Title Input */}
         {isReadOnly ? (
-          <h1 style={{ fontSize: '2.3rem', fontWeight: 700, lineHeight: 1.25, color: 'var(--color-text-primary)', marginBottom: 8 }}>
+          <h1 style={{ fontSize: '2.2rem', fontWeight: 700, lineHeight: 1.3, color: 'var(--color-text-primary)', marginBottom: 8 }}>
             {page.title}
           </h1>
         ) : (
-          <input
-            type="text"
+          <textarea
+            ref={titleTextareaRef}
             value={page.title}
             onChange={(e) => handleUpdateTitle(e.target.value)}
+            rows={1}
             placeholder={t.untitledPage}
             style={{
               width: '100%',
-              fontSize: '2.3rem',
+              fontSize: '2.2rem',
               fontWeight: 700,
-              lineHeight: 1.25,
+              lineHeight: 1.3,
               color: 'var(--color-text-primary)',
               background: 'transparent',
               border: 'none',
               outline: 'none',
+              resize: 'none',
+              overflow: 'hidden',
               marginBottom: 8,
+              boxSizing: 'border-box',
+              fontFamily: 'inherit',
+              display: 'block',
             }}
           />
         )}
@@ -441,44 +475,80 @@ export const PageEditor: React.FC<Props> = ({
 
       {/* Render All Blocks */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {page.blocks.map((block, index) => (
-          <div
-            key={block.id}
-            id={`block-${block.id}`}
-            onMouseEnter={() => setHoveredBlockId(block.id)}
-            onMouseLeave={() => setHoveredBlockId(null)}
-            className="axiom-block-wrapper"
-            style={{
-              backgroundColor: block.colorTint || 'transparent',
-              padding: block.colorTint ? '8px 12px' : '2px 0',
-            }}
-          >
-            {/* Block Hover Drag Handle & Action Trigger */}
-            {!isReadOnly && (
-              <div
-                className="axiom-block-handle"
-                style={{ opacity: hoveredBlockId === block.id ? 1 : 0 }}
-              >
-                <button
-                  type="button"
-                  onClick={() => setActiveMenuBlock(block)}
-                  className="axiom-icon-btn"
-                  style={{ width: 22, height: 22, padding: 0 }}
-                  title={isRtl ? 'خيارات الكتلة' : 'Block options'}
+        {page.blocks.map((block, index) => {
+          const isDragOver = dragOverBlockId === block.id;
+          return (
+            <div
+              key={block.id}
+              id={`block-${block.id}`}
+              onMouseEnter={() => setHoveredBlockId(block.id)}
+              onMouseLeave={() => setHoveredBlockId(null)}
+              onDragOver={(e) => {
+                if (isReadOnly || !draggedBlockId || draggedBlockId === block.id) return;
+                e.preventDefault();
+                const rect = e.currentTarget.getBoundingClientRect();
+                const midY = rect.top + rect.height / 2;
+                const pos = e.clientY < midY ? 'top' : 'bottom';
+                setDragOverBlockId(block.id);
+                setDropPosition(pos);
+              }}
+              onDragLeave={() => {
+                if (dragOverBlockId === block.id) {
+                  setDragOverBlockId(null);
+                  setDropPosition(null);
+                }
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                if (draggedBlockId && dropPosition) {
+                  handleReorderBlocks(draggedBlockId, block.id, dropPosition);
+                }
+              }}
+              className="axiom-block-wrapper"
+              style={{
+                backgroundColor: block.colorTint || 'transparent',
+                padding: block.colorTint ? '8px 12px' : '2px 0',
+                borderTop: isDragOver && dropPosition === 'top' ? '2px solid var(--color-primary-olive)' : 'none',
+                borderBottom: isDragOver && dropPosition === 'bottom' ? '2px solid var(--color-primary-olive)' : 'none',
+                transition: 'border-color var(--transition-fast), background-color var(--transition-fast)',
+              }}
+            >
+              {/* Block Hover Drag Handle & Action Trigger */}
+              {!isReadOnly && (
+                <div
+                  className="axiom-block-handle"
+                  style={{ opacity: hoveredBlockId === block.id ? 1 : 0 }}
                 >
-                  <DragHandleIcon size={14} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleAddBlock('text', index)}
-                  className="axiom-icon-btn"
-                  style={{ width: 22, height: 22, padding: 0 }}
-                  title={isRtl ? 'إضافة كتلة بالأسفل' : 'Add block below'}
-                >
-                  <PlusIcon size={12} />
-                </button>
-              </div>
-            )}
+                  <button
+                    type="button"
+                    draggable={!isReadOnly}
+                    onDragStart={(e) => {
+                      e.dataTransfer.setData('text/plain', block.id);
+                      setDraggedBlockId(block.id);
+                    }}
+                    onDragEnd={() => {
+                      setDraggedBlockId(null);
+                      setDragOverBlockId(null);
+                      setDropPosition(null);
+                    }}
+                    onClick={() => setActiveMenuBlock(block)}
+                    className="axiom-icon-btn"
+                    style={{ width: 22, height: 22, padding: 0, cursor: 'grab' }}
+                    title={isRtl ? 'اسحب لإعادة الترتيب أو انقر للخيارات' : 'Drag to reorder or click for options'}
+                  >
+                    <DragHandleIcon size={14} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleAddBlock('text', index)}
+                    className="axiom-icon-btn"
+                    style={{ width: 22, height: 22, padding: 0 }}
+                    title={isRtl ? 'إضافة كتلة بالأسفل' : 'Add block below'}
+                  >
+                    <PlusIcon size={12} />
+                  </button>
+                </div>
+              )}
 
             {/* Block Type Rendering */}
             {block.type === 'table' && (
@@ -590,7 +660,8 @@ export const PageEditor: React.FC<Props> = ({
               />
             )}
           </div>
-        ))}
+        );
+      })}
       </div>
 
       {/* Block Options Modal Menu */}

@@ -66,14 +66,23 @@ export const CommandPalette: React.FC<Props> = ({
           alignItems: 'center',
           gap: '12px'
         }}>
-          <SearchIcon size={18} style={{ color: 'var(--color-accent)' }} />
+          <SearchIcon size={18} style={{ color: 'var(--color-primary-olive)' }} />
           <input
             autoFocus
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            style={{ width: '100%', fontSize: '0.96rem' }}
+            style={{
+              width: '100%',
+              fontSize: '0.96rem',
+              border: 'none',
+              outline: 'none',
+              background: 'transparent',
+              color: 'var(--color-text-primary)',
+              fontFamily: 'inherit',
+              padding: 0
+            }}
           />
           <span className="ax-kbd">ESC</span>
         </div>
@@ -87,84 +96,54 @@ export const CommandPalette: React.FC<Props> = ({
               </div>
 
               <button
+                type="button"
                 onClick={() => { onNewPage(); onClose(); }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
-                  padding: '8px 12px', borderRadius: 'var(--radius-sm)', fontSize: '0.88rem',
-                  textAlign: isRtl ? 'right' : 'left'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-surface-hover)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                className="ax-cmd-item"
               >
-                <PlusIcon size={16} style={{ color: 'var(--color-accent)' }} />
+                <PlusIcon size={16} style={{ color: 'var(--color-primary-olive)' }} />
                 <span>{t.newPage}</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => { onOpenAiSynthesis(); onClose(); }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
-                  padding: '8px 12px', borderRadius: 'var(--radius-sm)', fontSize: '0.88rem',
-                  textAlign: isRtl ? 'right' : 'left'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-surface-hover)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                className="ax-cmd-item"
               >
-                <SparklesIcon size={16} style={{ color: 'var(--color-accent)' }} />
+                <SparklesIcon size={16} style={{ color: 'var(--color-accent-lime)' }} />
                 <span>{t.aiSynthesize}</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => { onOpenShare(); onClose(); }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
-                  padding: '8px 12px', borderRadius: 'var(--radius-sm)', fontSize: '0.88rem',
-                  textAlign: isRtl ? 'right' : 'left'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-surface-hover)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                className="ax-cmd-item"
               >
                 <ShareIcon size={16} />
                 <span>{t.shareShort}</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => { onOpenMcp(); onClose(); }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
-                  padding: '8px 12px', borderRadius: 'var(--radius-sm)', fontSize: '0.88rem',
-                  textAlign: isRtl ? 'right' : 'left'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-surface-hover)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                className="ax-cmd-item"
               >
                 <ServerIcon size={16} />
                 <span>{t.mcpHub}</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => { onToggleTheme(); onClose(); }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
-                  padding: '8px 12px', borderRadius: 'var(--radius-sm)', fontSize: '0.88rem',
-                  textAlign: isRtl ? 'right' : 'left'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-surface-hover)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                className="ax-cmd-item"
               >
                 <MoonIcon size={16} />
                 <span>{t.themeToggle}</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => { onToggleLanguage(); onClose(); }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
-                  padding: '8px 12px', borderRadius: 'var(--radius-sm)', fontSize: '0.88rem',
-                  textAlign: isRtl ? 'right' : 'left'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-surface-hover)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                className="ax-cmd-item"
               >
                 <GlobeIcon size={16} />
                 <span>{isRtl ? 'التبديل إلى English' : 'Switch to العربية'}</span>
@@ -180,15 +159,11 @@ export const CommandPalette: React.FC<Props> = ({
 
             {filteredPages.map((page) => (
               <button
+                type="button"
                 key={page.id}
                 onClick={() => { onSelectPage(page.id); onClose(); }}
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  width: '100%', padding: '8px 12px', borderRadius: 'var(--radius-sm)',
-                  textAlign: isRtl ? 'right' : 'left'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg-surface-hover)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                className="ax-cmd-item"
+                style={{ justifyContent: 'space-between' }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <span style={{ fontSize: '1.2rem' }}>

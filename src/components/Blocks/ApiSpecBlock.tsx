@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { ApiEndpointData } from '../../types';
 import { LockIcon, UnlockIcon, CopyIcon, CheckIcon } from '../icons/HugeIcons';
+import { AxiomDropdown } from '../Common/AxiomDropdown';
 
 interface Props {
   data: ApiEndpointData;
@@ -46,25 +47,19 @@ export const ApiSpecBlock: React.FC<Props> = ({ data, onUpdate, isReadOnly, isRt
               {data.method}
             </span>
           ) : (
-            <select
+            <AxiomDropdown
+              size="sm"
               value={data.method}
-              onChange={(e) => handleUpdate('method', e.target.value)}
-              className="ax-input"
-              style={{
-                fontFamily: 'var(--font-family-mono)',
-                fontWeight: 700,
-                padding: '5px 10px',
-                borderRadius: 'var(--radius-sm)',
-                color: 'var(--color-primary-olive)',
-                cursor: 'pointer',
-              }}
-            >
-              <option value="GET">GET</option>
-              <option value="POST">POST</option>
-              <option value="PUT">PUT</option>
-              <option value="PATCH">PATCH</option>
-              <option value="DELETE">DELETE</option>
-            </select>
+              onChange={(val) => handleUpdate('method', val)}
+              options={[
+                { id: 'GET', label: 'GET', color: 'var(--color-status-info)' },
+                { id: 'POST', label: 'POST', color: 'var(--color-primary-olive)' },
+                { id: 'PUT', label: 'PUT', color: 'var(--color-status-purple)' },
+                { id: 'PATCH', label: 'PATCH', color: 'var(--color-status-warning)' },
+                { id: 'DELETE', label: 'DELETE', color: 'var(--color-status-danger)' },
+              ]}
+              isRtl={isRtl}
+            />
           )}
 
           {isReadOnly ? (

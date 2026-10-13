@@ -10,12 +10,12 @@ interface LogoProps {
 }
 
 export const AxiomMainLogo: React.FC<LogoProps> = ({
-  height = 32,
+  height = 38,
   width,
   className,
   style,
   color = 'var(--color-text-primary)',
-  markColor = '#5B6F00',
+  markColor = 'var(--color-primary-olive)',
 }) => {
   return (
     <svg
