@@ -11,6 +11,7 @@ import {
   SparklesIcon,
   TerminalIcon,
 } from '../icons/HugeIcons';
+import { AxiomMainLogo } from '../icons/AxiomLogo';
 
 interface SidebarProps {
   pages: Page[];
@@ -80,33 +81,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '12px 10px', gap: 10 }}>
-          {/* Workspace Branding and Pin/Lock Control */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-              <div
-                style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'var(--color-primary-olive)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#FFFFFF',
-                  fontWeight: 700,
-                  fontSize: 14,
-                }}
-              >
-                A
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--color-text-primary)' }}>
-                  Axiom Workspace
-                </span>
-                <span style={{ fontSize: 10.5, color: 'var(--color-text-muted)' }}>
-                  {language === 'ar' ? 'التخطيط المعماري' : 'Architecture Platform'}
-                </span>
-              </div>
+          {/* Workspace Branding with Main Logo and Pin/Lock Control */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px', minHeight: 36 }}>
+            <div
+              style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
+              onClick={() => pages[0] && onSelectPage(pages[0].id)}
+              title="Axiom Architecture Platform"
+            >
+              <AxiomMainLogo height={28} />
             </div>
 
             {/* Pin / Close Toggle */}
