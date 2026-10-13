@@ -1,0 +1,91 @@
+@font-face {
+    font-family: 'GT America Arabic';
+    src: url('GTAmericaArabic-Black.eot');
+    src: local('GT America Arabic Black'), local('GTAmericaArabic-Black'),
+        url('GTAmericaArabic-Black.eot?#iefix') format('embedded-opentype'),
+        url('GTAmericaArabic-Black.woff2') format('woff2'),
+        url('GTAmericaArabic-Black.woff') format('woff'),
+        url('GTAmericaArabic-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT America Arabic';
+    src: url('GTAmericaArabic-Regular.eot');
+    src: local('GT America Arabic Regular'), local('GTAmericaArabic-Regular'),
+        url('GTAmericaArabic-Regular.eot?#iefix') format('embedded-opentype'),
+        url('GTAmericaArabic-Regular.woff2') format('woff2'),
+        url('GTAmericaArabic-Regular.woff') format('woff'),
+        url('GTAmericaArabic-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT America Arabic Ultra';
+    src: url('GTAmericaArabic-UltraLight.eot');
+    src: local('GT America Arabic Ultra Light'), local('GTAmericaArabic-UltraLight'),
+        url('GTAmericaArabic-UltraLight.eot?#iefix') format('embedded-opentype'),
+        url('GTAmericaArabic-UltraLight.woff2') format('woff2'),
+        url('GTAmericaArabic-UltraLight.woff') format('woff'),
+        url('GTAmericaArabic-UltraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT America Arabic';
+    src: url('GTAmericaArabic-Bold.eot');
+    src: local('GT America Arabic Bold'), local('GTAmericaArabic-Bold'),
+        url('GTAmericaArabic-Bold.eot?#iefix') format('embedded-opentype'),
+        url('GTAmericaArabic-Bold.woff2') format('woff2'),
+        url('GTAmericaArabic-Bold.woff') format('woff'),
+        url('GTAmericaArabic-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT America Arabic';
+    src: url('GTAmericaArabic-Light.eot');
+    src: local('GT America Arabic Light'), local('GTAmericaArabic-Light'),
+        url('GTAmericaArabic-Light.eot?#iefix') format('embedded-opentype'),
+        url('GTAmericaArabic-Light.woff2') format('woff2'),
+        url('GTAmericaArabic-Light.woff') format('woff'),
+        url('GTAmericaArabic-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT America Arabic';
+    src: url('GTAmericaArabic-Medium.eot');
+    src: local('GT America Arabic Medium'), local('GTAmericaArabic-Medium'),
+        url('GTAmericaArabic-Medium.eot?#iefix') format('embedded-opentype'),
+        url('GTAmericaArabic-Medium.woff2') format('woff2'),
+        url('GTAmericaArabic-Medium.woff') format('woff'),
+        url('GTAmericaArabic-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT America Arabic';
+    src: url('GTAmericaArabic-Thin.eot');
+    src: local('GT America Arabic Thin'), local('GTAmericaArabic-Thin'),
+        url('GTAmericaArabic-Thin.eot?#iefix') format('embedded-opentype'),
+        url('GTAmericaArabic-Thin.woff2') format('woff2'),
+        url('GTAmericaArabic-Thin.woff') format('woff'),
+        url('GTAmericaArabic-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
