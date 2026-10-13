@@ -271,15 +271,14 @@ a {
 
 .axiom-btn-primary:hover {
   background-color: var(--color-primary-olive-hover);
-  outline: 2px solid var(--color-primary-olive);
-  outline-offset: 2px;
   transform: translateY(-0.5px);
 }
 
 .axiom-btn-primary:active {
   background-color: var(--color-primary-olive-active);
-  transform: scale(0.98);
-  outline-offset: 1px;
+  outline: 2px solid var(--color-primary-olive);
+  outline-offset: 2px;
+  transform: scale(0.97);
 }
 
 .axiom-btn-secondary {
@@ -304,15 +303,15 @@ a {
 .axiom-btn-secondary:hover {
   background-color: var(--color-bg-surface-hover);
   border-color: var(--color-border-strong);
-  outline: 2px solid var(--color-border-medium);
-  outline-offset: 2px;
   transform: translateY(-0.5px);
 }
 
 .axiom-btn-secondary:active {
   background-color: var(--color-bg-surface-active);
-  transform: scale(0.98);
-  outline-offset: 1px;
+  border-color: var(--color-border-strong);
+  outline: 2px solid var(--color-border-medium);
+  outline-offset: 2px;
+  transform: scale(0.97);
 }
 
 .axiom-btn-ghost {
