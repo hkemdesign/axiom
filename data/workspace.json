@@ -1,0 +1,65 @@
+{
+  "pages": [
+    {
+      "id": "page_sidequeue_hub",
+      "title": "Sidequeue: Project Hub",
+      "status": "active",
+      "icon": "🎮",
+      "blocks": [
+        { "type": "callout", "content": "This page is the main reference for the project. Any AI agent starts from here." },
+        { "type": "text", "content": "League of Legends tournament platform covering registration, live draft, bracket play, custom game lobbies, and match reporting. Built for organizers running competitive LoL tournaments end to end." },
+        { "type": "heading_1", "content": "What is this" },
+        { "type": "text", "content": "A comprehensive tournament platform for League of Legends. Covers tournament brackets, live draft and pick-ban, custom game lobbies, and match reporting, from registration to finals.\n\nProject name: Sidequeue. Confirmed 2026-08-26." },
+        { "type": "heading_1", "content": "Plans" },
+        { "type": "subpage", "subpageId": "page_plan_riot_api" },
+        { "type": "subpage", "subpageId": "page_plan_draft_tool" },
+        { "type": "subpage", "subpageId": "page_plan_bracket_engine" },
+        { "type": "subpage", "subpageId": "page_plan_lobby_reporting" },
+        { "type": "heading_1", "content": "Current State" },
+        { "type": "text", "content": "Phase 0 and Phase 0.5 complete, awaiting review. Repo: https://github.com/hkemdesign/sidequeue (private)." },
+        { "type": "callout", "content": "Development key caps at 20 requests per second and 100 per 2 minutes, expires every 24 hours, and cannot power anything public, not even an open beta." },
+        { "type": "heading_1", "content": "Agent Rules" },
+        { "type": "callout", "content": "1. TypeScript only\n2. No em dashes anywhere in generated content\n3. Work in phases, confirm each phase before starting the next\n4. Zod validation on every input\n5. Every Supabase query scoped by RLS\n6. Riot API key stays server-side only\n7. All Riot API calls go through the throttled service layer" },
+        { "type": "heading_1", "content": "Phase Roadmap" },
+        { "type": "checklist", "content": "Phase 0 - Foundation & Scaffold - Done\nPhase 0.5 - Design System Foundation - Done\nPhase 1 - Auth & Core Data Model\nPhase 2 - Riot Games API Integration Layer\nPhase 3 - Tournament & Bracket Engine\nPhase 4 - Draft & Pick-Ban Tool\nPhase 5 - Custom Game Lobby & Match Reporting\nPhase 6 - Team & Player Management\nPhase 7 - Standings & Results\nPhase 8 - Public Spectator Site\nPhase 9 - Admin Dashboard\nPhase 10 - Responsiveness & Polish Pass" }
+      ]
+    },
+    {
+      "id": "page_plan_riot_api",
+      "title": "Plan: Riot Games API Integration Layer",
+      "status": "in_review",
+      "icon": "🔌",
+      "blocks": [
+        { "type": "heading_1", "content": "Riot Games API Architecture & Rate Limits" },
+        { "type": "adr", "content": "ADR: Throttled Server-Side Gateway for Riot API" }
+      ]
+    },
+    {
+      "id": "page_plan_draft_tool",
+      "title": "Plan: Draft & Pick-Ban Tool",
+      "status": "in_review",
+      "icon": "🎯",
+      "blocks": [
+        { "type": "heading_1", "content": "Server-Authoritative Pick & Ban System" }
+      ]
+    },
+    {
+      "id": "page_plan_bracket_engine",
+      "title": "Plan: Tournament Bracket Engine",
+      "status": "in_review",
+      "icon": "🏆",
+      "blocks": [
+        { "type": "heading_1", "content": "Bracket Mechanics & Mathematical Seeding" }
+      ]
+    },
+    {
+      "id": "page_plan_lobby_reporting",
+      "title": "Plan: Custom Game Lobby & Match Reporting",
+      "status": "in_review",
+      "icon": "🎮",
+      "blocks": [
+        { "type": "heading_1", "content": "Automated Match Validation & Score Reporting" }
+      ]
+    }
+  ]
+}

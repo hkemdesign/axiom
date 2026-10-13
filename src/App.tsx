@@ -10,7 +10,7 @@ import { AiSynthesisModal } from './components/Modals/AiSynthesisModal';
 import { CommandPalette } from './components/Modals/CommandPalette';
 import { Toast } from './components/Toast/Toast';
 
-const AXIOM_WORKSPACE_VERSION = 'axiom_v6_luxurious';
+const AXIOM_WORKSPACE_VERSION = 'axiom_v8_sidequeue_hub';
 
 export const App: React.FC = () => {
   // Persistence in localStorage with version bump
